@@ -12,10 +12,12 @@ Make sure to install the following packages:
 1. RDKit
 2. MDAnalysis
 3. natsort
+4. xgboost
 ```
 pip install rdkit-pypi
 pip install MDAnalysis
 pip install natsort
+pip install xgboost
 ```
 
 ## Project Structure
@@ -24,11 +26,10 @@ pip install natsort
 3. `data/protein/`: Protein PDB file.
 4. `figures/`: Dicectory for saving result plots.
 5. `models/`: Dicectory for ML models and trainer.
-6. `test/`:Dicectory for testing code.
-7. `utility/`: Dicectory for functions that genrate training data.
-8. `utility/generate_data.py`: Contain all data preprocessing functinos.
-9. `main.py`: Main program for model training and evaluating.
-10. `README.md`: Project documentation.
+6. `utility/`: Dicectory for functions that genrate training data.
+7. `utility/generate_data.py`: Contain all data preprocessing functinos.
+8. `main.py`: Main program for model training and evaluating.
+9. `README.md`: Project documentation.
 
 ## Usage
 1. Run generate_data.py in utility folder to generate Morgan fingerprints, calculate ligand-protein distances, combine CSV files and split the data into two classes:
