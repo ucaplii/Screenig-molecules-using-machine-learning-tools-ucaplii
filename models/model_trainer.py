@@ -1,4 +1,3 @@
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 from scipy.stats import pearsonr  
 from sklearn.model_selection import KFold
@@ -6,7 +5,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from utility.generate_data import generate_morgan_fingerprints,calculate_ligand_protein_distances,combine_csv_files
 from models.model import RandomForest, XGBoost, KernelRidgeRegression,SupportVectorRegression,MLP
 
 class ModelTrainer:
