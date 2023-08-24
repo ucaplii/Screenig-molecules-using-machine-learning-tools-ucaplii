@@ -7,7 +7,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from utility.generate_data import generate_morgan_fingerprints,calculate_ligand_protein_distances,combine_csv_files
-from utility.split_data import split_data_to_classes
 from models.model import RandomForest, XGBoost, KernelRidgeRegression,SupportVectorRegression,MLP
 
 class ModelTrainer:
@@ -50,7 +49,6 @@ class ModelTrainer:
         avg_mse = np.mean(fold_mses)  # Calculate average MSE across folds
         avg_pearson_coeff = np.mean(fold_pearson_coeffs)  # Calculate mean Pearson coefficient across folds
 
-        # print(self.data)
         print("Average Mean Squared Error across folds:", avg_mse)
         print("Mean Pearson correlation coefficient across folds:", avg_pearson_coeff)
 
@@ -179,28 +177,3 @@ def run_Trainer():
             print("")
     
 
-
-
-
-
-
-# from .model import RandomForest
-# def main():
-
-#     from sklearn.ensemble import RandomForestRegressor
-#     import pandas as pd
-
-#     # Load your data from a CSV file
-#     data_file = './data/class_1_data.csv'  # Replace with your actual data file path
-#     data = pd.read_csv(data_file)
-
-#     model_instance = RandomForest(n_estimators=100, random_state=42)  # Create an instance of the RandomForest class
-#     model = model_instance.get_model()  # Get the actual RandomForest model from the instance
-
-#     model_trainer = ModelTrainer(model, data, num_iterations=1)
-
-#     model_trainer.train()
-#     model_trainer.evaluate_model()
-
-# if __name__ == "__main__":
-#     main()
