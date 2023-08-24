@@ -22,15 +22,15 @@ def generate_morgan_fingerprints(ligand_dir, output_file):
     output_file : str
         Path to the output CSV file to save the Morgan fingerprints.
     """
-    mol_list = []
+    mol_list = []  # Create a list to store molecule objects
     for ligand_filename in natsorted(os.listdir(ligand_dir)):
         ligand_filepath = os.path.join(ligand_dir, ligand_filename)
         if ligand_filepath.endswith('.pdb'):
             mol = Chem.MolFromPDBFile(ligand_filepath)
             mol_list.append(mol)
 
-    morgan_fingerprints = []
-    for mol in mol_list:
+    morgan_fingerprints = [] # Create a list to store Morgan fingerprints
+    for mol in mol_list: # Generate fingerprints for each molecule
         fingerprint = AllChem.GetHashedMorganFingerprint(mol, 1, nBits=1024)
         fingerprint_array = np.zeros((0,), dtype=int)
         DataStructs.ConvertToNumpyArray(fingerprint, fingerprint_array)
@@ -60,7 +60,7 @@ def calculate_ligand_protein_distances(ligand_dir, protein_file, output_file):
                        "resid 59", "resid 16", "resid 76","resid 35","resid 19", 
                        "resid 18", "resid 785", "resid 15","resid 30","resid 14",
                        "resid 117","resid 116","resid 120","resid 119","resid 146",
-                       "resid 145", "resid 147","resid 786","resid 61","resid 29"]
+                       "resid 145", "resid 147","resid 786","resid 61","resid 29"] # List of target protein residues for distance calculation
 
     ligand_files = os.listdir(ligand_dir)
     ligand_pdb_files = [f for f in ligand_files if f.endswith('.pdb')]
@@ -75,8 +75,8 @@ def calculate_ligand_protein_distances(ligand_dir, protein_file, output_file):
             ligand_atoms = ligand_universe.select_atoms('resname LIG')
             ligand_positions = ligand_atoms.positions
 
-            protein_universe = mda.Universe(protein_file)
-            for residue_index, target_residue in enumerate(target_residues):
+            protein_universe = mda.Universe(protein_file) # Load ligand and protein structures
+            for residue_index, target_residue in enumerate(target_residues): # Iterate over target residues and calculate distances
                 target_atoms = protein_universe.select_atoms(target_residue)
                 target_positions = target_atoms.positions
                 dist_array = distances.distance_array(ligand_positions, target_positions)
@@ -88,8 +88,6 @@ def calculate_ligand_protein_distances(ligand_dir, protein_file, output_file):
                 distance_matrix[ligand_index, residue_index] = min_distance
             ligand_index += 1
 
-    # Remove columns with all zeros
-    distance_matrix = distance_matrix[:, ~np.all(distance_matrix == 0, axis=0)]
 
     with open(output_file, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
