@@ -1,6 +1,6 @@
 # Screenig-molecules-using-machine-learning-tools-ucaplii
 
-This project aims to screen molecules using machine learning tools to predict energy barrier with ligands bound to K-Ras G12D protein, including Random Forest, XGBoost, Kernel Ridge Regression, Support Vector Regression, and Multilayer Perceptron. The project includes data preprocessing, feature extraction, model training, and evaluation.
+This project aims  to predict energy barrier with ligands bound to K-Ras G12D protein using machine learning tools to screen molecules libraries, including Random Forest, XGBoost, Kernel Ridge Regression, Support Vector Regression, and Multilayer Perceptron. The project includes data preprocessing, feature extraction, model training, and evaluation.
 
 ## Setup
 
@@ -12,13 +12,16 @@ Make sure to install the following packages:
 1. RDKit
 2. MDAnalysis
 3. natsort
-4. xgboost
+4. scikit-learn
+5. xgboost
 ```
 pip install rdkit-pypi
 pip install MDAnalysis
 pip install natsort
+pip install scikit-learn
 pip install xgboost
 ```
+
 
 ## Project Structure
 1. `data/`: Directory for input data files.
@@ -26,10 +29,12 @@ pip install xgboost
 3. `data/protein/`: Protein PDB file.
 4. `figures/`: Dicectory for saving result plots.
 5. `models/`: Dicectory for ML models and trainer.
-6. `utility/`: Dicectory for functions that genrate training data.
-7. `utility/generate_data.py`: Contain all data preprocessing functinos.
-8. `main.py`: Main program for model training and evaluating.
-9. `README.md`: Project documentation.
+6. `models/model.py`: Contain 5 ML models classes where parameters could be modified.
+7. `models/model_trainer.py`: Contain ModelTrainer class and run_trainer function.
+8. `utility/`: Dicectory for functions that genrate training data.
+9. `utility/generate_data.py`: Contain all data preprocessing functinos.
+10. `main.py`: Main program for model training and evaluating.
+11. `README.md`: Project documentation.
 
 ## Usage
 1. Run generate_data.py in utility folder to generate Morgan fingerprints, calculate ligand-protein distances, combine CSV files and split the data into two classes:
@@ -42,7 +47,7 @@ After this process, `data/` folder should contain `All_Data_Training_with_classe
 ```
 python main.py
 ```
-The program will train on entire 5 ML models with full set, class 1 and class 2 data, print the performance and save the figures of output to `figure/` folder as following.
+The program will train on entire 5 ML models with 10 iterations on full set, class 1 and class 2 data , print the performance and save the figures of output to `figure/` folder as following.
 
 ![image](https://github.com/ucaplii/screening-molecules-libraries-using-machine-learning-tools-ucaplii/assets/114681378/0f58bfd3-d3a7-458a-b2be-cc0eb689496e)
 
@@ -53,33 +58,21 @@ Each model has three sets of two figures for a total of six. For example, use XG
 ![XGBRegressor_class 2_residuals_figures](https://github.com/ucaplii/screening-molecules-libraries-using-machine-learning-tools-ucaplii/assets/114681378/ce40b0eb-5d52-4931-af54-64ea775d7765)
 
 
-Parameters of model can be change in `models/model.py` by modifing the `__init__` parameter in each ML model class.
+## Parameters 
+1. Parameters of model can be change in `models/model.py` by modifing the `__init__` parameter in each ML model class.
+
+Example in XGBoost Class.
 
 ```
-class RandomForest:
-    def __init__(self,
-                 n_estimators=500,
-                 random_state=None):
-        
-        self.n_estimators = n_estimators
-        self.random_state = random_state
-        self.model = RandomForestRegressor(
-            n_estimators=n_estimators,
-            random_state=random_state)
-
-    def get_model(self):
-        return self.model
-
-
 class XGBoost:
     def __init__(self,
-                 n_estimators=1000,
-                 learning_rate=0.01,
-                 max_depth=8,
-                 colsample_bytree=0.9,
-                 reg_alpha=1,
-                 subsample=0.6,
-                 random_state=None):
+                 n_estimators=your_parameter,
+                 learning_rate=your_parameter,
+                 max_depth=your_parameter,
+                 colsample_bytree=your_parameter,
+                 reg_alpha=your_parameter,
+                 subsample=your_parameter,
+                 random_state=your_parameter):
 
         self.n_estimators = n_estimators
         self.learning_rate = learning_rate
@@ -99,43 +92,12 @@ class XGBoost:
 
     def get_model(self):
         return self.model
-
-class KernelRidgeRegression:
-    def __init__(self, alpha=0.1, kernel='laplacian'):
-        self.alpha = alpha
-        self.kernel = kernel
-        self.model = KernelRidge(alpha=alpha, kernel=kernel)
-    
-    def get_model(self):
-        return self.model
-    
-class SupportVectorRegression:
-    def __init__(self, kernel='rbf', C=1, epsilon=0.01):
-        self.kernel = kernel
-        self.C = C
-        self.epsilon = epsilon
-        self.model = SVR(kernel=kernel, C=C, epsilon=epsilon)
-    
-    def get_model(self):
-        return self.model
-    
-class MLP:
-    def __init__(self, hidden_layers=(500,100,50), activation='relu', alpha=0.01, random_state=None):
-        self.hidden_layer_sizes = hidden_layers
-        self.activation = activation
-        self.alpha = alpha
-        self.random_state = random_state
-        self.model = MLPRegressor(
-            hidden_layer_sizes=hidden_layers,
-            activation=activation,
-            alpha=alpha,
-            random_state=random_state
-        )  
-        
-    def get_model(self):
-        return self.model
 ```
-
+2. numbers of iterations can be modified in the function `run_trainer` in `models/model_trainer.py`.
+```
+model_trainer = ModelTrainer(model, dataset, num_iterations=your_iterations)
+model_trainer.train()
+```
 ## Notes
 
 1. There is no need to set any paths or parameters to run this programme. The parameters are predefined in the programme.
