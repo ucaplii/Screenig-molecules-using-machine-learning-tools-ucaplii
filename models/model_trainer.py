@@ -10,6 +10,20 @@ from utility.generate_data import generate_morgan_fingerprints,calculate_ligand_
 from models.model import RandomForest, XGBoost, KernelRidgeRegression,SupportVectorRegression,MLP
 
 class ModelTrainer:
+    """
+    A class for training and evaluating machine learning models.
+
+    Parameters:
+    ----------
+    model : object
+        An instance of the machine learning model.
+    data : DataFrame
+        The input data for training and evaluation.
+    num_folds : int, optional
+        Number of cross-validation folds, by default 5.
+    num_iterations : int, optional
+        Number of iterations for repeated training, by default 10.
+    """
     def __init__(self, model, data, num_folds=5, num_iterations=10):
         self.model = model
         self.data = data
@@ -19,6 +33,16 @@ class ModelTrainer:
         self.y_pred_all = np.zeros(len(data))
 
     def train(self):
+        """
+        Train the model using cross-validation and calculate evaluation metrics.
+
+        Returns:
+        ----------
+        avg_mse : float
+            Average Mean Squared Error across folds.
+        avg_pearson_coeff : float
+            Mean Pearson correlation coefficient across folds.
+        """        
         x_data = self.data.drop(['barriers', 'cluster_label', 'files'], axis=1)
         y_data = self.data['barriers']
 
@@ -56,6 +80,9 @@ class ModelTrainer:
 
 
     def plot_predictions_vs_actual(self):
+        """
+        Plot the predicted vs. actual barriers.
+        """
         y_true = self.data['barriers']
         y_pred = self.data['y_pred']
 
@@ -71,6 +98,9 @@ class ModelTrainer:
 
 
     def plot_residuals(self):
+        """
+        Plot the distribution of residuals.
+        """        
         y_true = self.data['barriers']
         y_pred = self.data['y_pred']
         residuals = y_true - y_pred
@@ -86,46 +116,9 @@ class ModelTrainer:
     
 
 def run_Trainer():
-    # ligand_directory = './data/ligands'  
-    # protein_pdb_file = './data/protein/g12d_aligned.pdb'  
-    
-    # MF_csv_file = './data/morgan_fingerprints.csv'  
-    # distances_csv_file = './data/distances.csv'  
-
-    # barriers_csv_file = './data/barriers.csv'  
-    # combined_csv_file = './data/All_Data_Training.csv'  
-    
-    # print("")
-    # print("Genearting input files...")
-    # print("==========================================================================")
-    # print("")
-
-    # print("Generating Morgan fingerprints...")
-    # print("==========================================================================")
-    # generate_morgan_fingerprints(ligand_directory, MF_csv_file)
-    # print("Morgan fingerprints generation finished.")
-    # print("")
-    
-    # print("Calculating distances...")
-    # print("==========================================================================")
-    # calculate_ligand_protein_distances(ligand_directory, protein_pdb_file, distances_csv_file)
-    # print("Distances calculation finished.")
-    # print("")
-
-    # print("Combining CSV files...")
-    # print("==========================================================================")
-    # combine_csv_files(distances_csv_file, MF_csv_file, barriers_csv_file, combined_csv_file)
-    # print("CSV files combined.")
-    # print("")
-
-    # data_with_classed_csv = './data/All_Data_Training_with_classes.csv'
-    # use_pca = True
-
-    # print("Saving modified data to CSV files...")
-    # print("==========================================================================")
-    # split_data_to_classes(combined_csv_file, data_with_classed_csv, use_pca)
-    # print("Data split finished.")
-    # print("")
+    """
+    Run training and evaluation of five machine learning models on three datasets.
+    """
 
     rf = RandomForest()
     xgb = XGBoost()
