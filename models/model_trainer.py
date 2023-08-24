@@ -154,7 +154,7 @@ def run_Trainer():
             print("==========================================================================")
 
             dataset = pd.read_csv(datafile)
-            model_trainer = ModelTrainer(model, dataset, num_iterations=1)
+            model_trainer = ModelTrainer(model, dataset, num_iterations=10)
             model_trainer.train()
 
             # Plot predictions vs. actual
