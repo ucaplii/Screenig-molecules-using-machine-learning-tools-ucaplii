@@ -54,8 +54,7 @@ Each model has three sets of two figures for a total of six. For example, use XG
 
 Parameters of model can be change in `models/model.py` by modifing the `__init__` parameter in each ML model class.
 
-<pre>
-```python
+```
 class RandomForest:
     def __init__(self,
                  n_estimators=500,
@@ -135,7 +134,6 @@ class MLP:
     def get_model(self):
         return self.model
 ```
-</pre>
 
 ## Notes
 
