@@ -81,10 +81,4 @@ class MLP:
         )  
         
     def get_model(self):
-        # self.model = MLPRegressor(
-        #     hidden_layers=self.hidden_layers,
-        #     activation=self.activation,
-        #     alpha=self.alpha,
-        #     random_state=self.random_state
-        # )
         return self.model
