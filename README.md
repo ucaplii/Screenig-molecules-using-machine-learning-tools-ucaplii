@@ -27,11 +27,11 @@ pip install xgboost
 1. `data/`: Directory for input data files.
 2. `data/ligands/`: Ligand PDB files.
 3. `data/protein/`: Protein PDB file.
-4. `figures/`: Dicectory for saving result plots.
-5. `models/`: Dicectory for ML models and trainer.
+4. `figures/`: Directory for saving result plots.
+5. `models/`: Directory for ML models and trainer.
 6. `models/model.py`: Contain 5 ML models classes where parameters could be modified.
 7. `models/model_trainer.py`: Contain ModelTrainer class and run_trainer function.
-8. `utility/`: Dicectory for functions that genrate training data.
+8. `utility/`: Directory for functions that genrate training data.
 9. `utility/generate_data.py`: Contain all data preprocessing functinos.
 10. `main.py`: Main program for model training and evaluating.
 11. `README.md`: Project documentation.
